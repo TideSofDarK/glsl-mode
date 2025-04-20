@@ -199,12 +199,12 @@ This style is passed directly to the "
                       ((identifier) @font-lock-type-face
                        (:match ,(rx-to-string `(seq bol (or ,@glsl-type-list) eol)) @font-lock-type-face))))
 
-    :feature keyword
     :language glsl
+    :feature keyword
     ([,@glsl-ts-keywords] @font-lock-keyword-face)
 
-    :feature builtin
     :language glsl
+    :feature builtin
     (((identifier) @font-lock-builtin-face
       (:match ,(rx-to-string `(seq bol (or ,@(glsl-ts--shader-builtins shader-type)) eol))
               @font-lock-builtin-face)))
@@ -212,6 +212,15 @@ This style is passed directly to the "
     :language glsl
     :feature qualifier
     (((type_qualifier) @font-lock-keyword-face))
+
+    :language glsl
+    :feature 'operator
+    `([,@glsl-operator-list] @font-lock-operator-face
+     "!" @font-lock-negation-char-face)
+
+    :language glsl
+    :feature 'literal
+    `((number_literal) @font-lock-number-face)
 
     :language glsl
     :feature type
