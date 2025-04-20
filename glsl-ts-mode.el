@@ -214,6 +214,7 @@ This style is passed directly to the "
     (((type_qualifier) @font-lock-keyword-face))
 
     :language glsl
+    :override t
     :feature operator
     ([,@glsl-operator-list] @font-lock-operator-face
      "!" @font-lock-negation-char-face)
