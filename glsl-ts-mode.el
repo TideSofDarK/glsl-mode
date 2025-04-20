@@ -215,8 +215,7 @@ This style is passed directly to the "
 
     :language glsl
     :feature operator
-    ([,@glsl-operator-list] @font-lock-operator-face
-     "!" @font-lock-negation-char-face)
+    ([,@glsl-operator-list] @font-lock-operator-face)
 
     :language glsl
     :feature literal
