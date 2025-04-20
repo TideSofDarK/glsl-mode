@@ -213,9 +213,10 @@ This style is passed directly to the "
     :feature qualifier
     (((type_qualifier) @font-lock-keyword-face))
 
-    :language glsl
-    :feature operator
-    ([,@glsl-operator-list] @font-lock-operator-face)
+    ;; :language glsl
+    ;; :feature operator
+    ;; ([,@glsl-operator-list] @font-lock-operator-face
+    ;;  "!" @font-lock-negation-char-face)
 
     :language glsl
     :feature literal
@@ -326,7 +327,7 @@ This style is passed directly to the "
 
 
 ;;;###autoload
-(define-derived-mode glsl-ts-mode prog-mode "GLSL[ts]"
+(define-derived-mode glsl-ts-mode c-ts-base-mode "GLSL"
   "Major mode for editing GLSL shaders with tree-sitter.
 
 \\{glsl-ts-mode-map}"
@@ -359,6 +360,11 @@ This style is passed directly to the "
   (when (treesit-ready-p 'glsl)
     (treesit-parser-create 'glsl)
     (glsl-ts-setup)))
+
+(when (treesit-ready-p 'glsl)
+  (setq major-mode-remap-defaults
+        (assq-delete-all 'glsl-mode major-mode-remap-defaults))
+  (add-to-list 'major-mode-remap-defaults '(glsl-mode . glsl-ts-mode)))
 
 (provide 'glsl-ts-mode)
 
