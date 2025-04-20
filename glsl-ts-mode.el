@@ -214,7 +214,6 @@ This style is passed directly to the "
     (((type_qualifier) @font-lock-keyword-face))
 
     :language glsl
-    :override t
     :feature operator
     ([,@glsl-operator-list] @font-lock-operator-face
      "!" @font-lock-negation-char-face)
@@ -328,7 +327,7 @@ This style is passed directly to the "
 
 
 ;;;###autoload
-(define-derived-mode glsl-ts-mode c-ts-mode "GLSL[ts]"
+(define-derived-mode glsl-ts-mode prog-mode "GLSL[ts]"
   "Major mode for editing GLSL shaders with tree-sitter.
 
 \\{glsl-ts-mode-map}"
