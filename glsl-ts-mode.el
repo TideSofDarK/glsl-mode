@@ -213,10 +213,10 @@ This style is passed directly to the "
     :feature qualifier
     (((type_qualifier) @font-lock-keyword-face))
 
-    ;; :language glsl
-    ;; :feature operator
-    ;; ([,@glsl-operator-list] @font-lock-operator-face
-    ;;  "!" @font-lock-negation-char-face)
+    :language glsl
+    :feature operator
+    ([,@glsl-operator-list] @font-lock-operator-face
+     "!" @font-lock-negation-char-face)
 
     :language glsl
     :feature literal
@@ -235,7 +235,11 @@ This style is passed directly to the "
       (:match ,(rx-to-string `(seq bol (or ,@(glsl-ts--shader-variables shader-type)))) @glsl-shader-variable-name-face)))
 
     :language glsl
-    :feature delimiter        ; TODO: Other brackets?
+    :feature delimiter
+    ([";" "," ":"] @font-lock-bracket-face)
+
+    :language glsl
+    :feature bracket
     (["(" ")" "{" "}" "[" "]"] @font-lock-bracket-face)))
 
 
@@ -328,38 +332,36 @@ This style is passed directly to the "
 
 ;;;###autoload
 (define-derived-mode glsl-ts-mode c-ts-base-mode "GLSL"
-  "Major mode for editing GLSL shaders with tree-sitter.
+  "Major mode for editing GLSL shaders with tree-sitter."
 
-\\{glsl-ts-mode-map}"
-  :syntax-table glsl-mode-syntax-table
+  (when (treesit-ensure-installed 'glsl)
+    (let ((primary-parser (treesit-parser-create 'glsl)))
 
-  (setq-local glsl-ts-buffer-shader-type (glsl-ts--detect-shader-type))
+      (setq-local glsl-ts-buffer-shader-type (glsl-ts--detect-shader-type))
 
-  ;; Find-file.
-  (setq-local ff-other-file-alist 'glsl-other-file-alist)
+      ;; Find-file.
+      (setq-local ff-other-file-alist 'glsl-other-file-alist)
 
-  ;; Comment.
-  (c-ts-common-comment-setup)
-  (setq-local comment-start "/* ")
-  (setq-local comment-end " */")
+      ;; Comment.
+      (c-ts-common-comment-setup)
+      (setq-local comment-start "/* ")
+      (setq-local comment-end " */")
 
-  ;; Electric
-  (setq-local electric-indent-chars (append "{}():;,#" electric-indent-chars))
+      ;; Electric
+      (setq-local electric-indent-chars (append "{}():;,#" electric-indent-chars))
 
-  ;; Align.
-  (add-to-list 'align-c++-modes 'glsl-ts-mode)
+      ;; Align.
+      (add-to-list 'align-c++-modes 'glsl-ts-mode)
 
-  ;; Font-lock settings.
-  (setq-local font-lock-defaults nil)
-  (setq-local treesit-font-lock-feature-list
-              '((comment document definition)
-                (keyword preprocessor string type qualifier builtin)
-                (assignment constant escape-sequence literal)
-                (bracket delimiter error function operator property variable)))
+      ;; Font-lock settings.
+      (setq-local font-lock-defaults nil)
+      (setq-local treesit-font-lock-feature-list
+                  '((comment document definition)
+                    (keyword preprocessor string type qualifier builtin)
+                    (assignment constant escape-sequence literal)
+                    (bracket delimiter error function operator property variable)))
 
-  (when (treesit-ready-p 'glsl)
-    (treesit-parser-create 'glsl)
-    (glsl-ts-setup)))
+      (glsl-ts-setup))))
 
 (when (treesit-ready-p 'glsl)
   (setq major-mode-remap-defaults
