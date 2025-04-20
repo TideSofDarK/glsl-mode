@@ -214,13 +214,13 @@ This style is passed directly to the "
     (((type_qualifier) @font-lock-keyword-face))
 
     :language glsl
-    :feature 'operator
-    `([,@glsl-operator-list] @font-lock-operator-face
+    :feature operator
+    ([,@glsl-operator-list] @font-lock-operator-face
      "!" @font-lock-negation-char-face)
 
     :language glsl
-    :feature 'literal
-    `((number_literal) @font-lock-number-face)
+    :feature literal
+    ((number_literal) @font-lock-number-face)
 
     :language glsl
     :feature type
