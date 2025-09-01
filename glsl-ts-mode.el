@@ -170,12 +170,10 @@ Alternatively, set it to `nil' to inherit from `c-ts-mode-indent-style'."
      (preproc_if condition: (_ (identifier) @font-lock-constant-face))
      (preproc_elif (identifier) @font-lock-constant-face)
      (preproc_elif condition: (_ (identifier) @font-lock-constant-face))
-     (preproc_ifdef name: (_) @font-lock-constant-face)
-     ;; (preproc_ifndef name: (_) @font-lock-constant-face)
-     ;; (preproc_def @glsl-preprocessor-face
-     ;;              name: (identifier) @font-lock-variable-name-face)
-     ;; (preproc_function_def name: ((identifier) @font-lock-function-name-face))
-     ;; (preproc_include ((string_literal) @font-lock-string-face))
+     (preproc_ifdef name: (identifier) @font-lock-constant-face)
+     (preproc_def name: (identifier) @font-lock-constant-face)
+     (preproc_function_def name: ((identifier) @font-lock-function-name-face))
+     (preproc_include ((string_literal) @font-lock-string-face))
      (["#if", "#ifdef", "#ifndef", "#else", "#elif", "#endif", "#define", "#include"]
       @glsl-preprocessor-face)
      (preproc_extension (preproc_directive) @glsl-preprocessor-face
